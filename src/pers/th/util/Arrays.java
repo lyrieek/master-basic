@@ -4,16 +4,30 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 数组处理
+ * @author 天浩
+ *
+ */
 public class Arrays {
 
 	public static final char[] EMPTY_CHARS = new char[0];
 
-	public <T> List<T> asList(@SuppressWarnings("unchecked") T... param) {
-		if (param != null) {
+	public <T> List<T> asList(T... param) {
+		if (param != null && param.length > 0) {
 			return java.util.Arrays.asList(param);
 		}
 		return new ArrayList<T>();
 	}
+
+	public <T> T[] asList(List<T> param) {
+		if (param != null && param.size() > 0) {
+			return param.toArray((T[]) param.toArray());
+		}
+		return (T[]) new ArrayList<T>().toArray();
+	}
+	
+	
 
 	/**
 	 * 是否全部都是null

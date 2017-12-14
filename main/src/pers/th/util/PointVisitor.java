@@ -3,35 +3,24 @@ package pers.th.util;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * 文本观察
+ * @author 天浩
+ */
 public class PointVisitor {
 
 	private volatile int point = 0;
 
 	private volatile int lastIndex = 0;
 
-	/**
-	 * 观察文本
-	 */
 	private volatile String visitorText;
 
-	/**
-	 * 搜索文本
-	 */
 	private volatile String searchChar;
 
-	/**
-	 * 搜索项
-	 */
 	private volatile String item;
 
-	/**
-	 * 是否包含下一项
-	 */
 	private boolean has;
 	
-	/**
-	 * 是否停止过
-	 */
 	private boolean alreadyEnd = false;
 
 	public PointVisitor(String source, int index) {
@@ -87,18 +76,11 @@ public class PointVisitor {
 		return null;
 	}
 
-	/**
-	 * 移动会记录上一次的位置
-	 * @param point
-	 */
 	public void move(int point) {
 		lastIndex = this.point;
 		setPoint(point);
 	}
 
-	/**
-	 * 跳过获取文本
-	 */
 	public void end() {
 		if (!alreadyEnd && item != null) {
 			alreadyEnd = true;
@@ -111,23 +93,12 @@ public class PointVisitor {
 		return item;
 	}
 
-	/**
-	 * 之前的文本
-	 * 
-	 * @return
-	 */
 	public String before() {
 		return visitorText.substring(0, point);
 	}
 
-	/**
-	 * 之后的文本
-	 * 
-	 * @return
-	 */
 	public String after() {
 		return visitorText.substring(point);
-		// return visitorText.substring(point);
 	}
 	
 	public void changeSearch(String searchChar) {

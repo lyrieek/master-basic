@@ -3,7 +3,7 @@ package pers.th.util.math;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * random ·ÂÕÕÀà
+ * java.util.Random ·ÂÕÕÀà
  * @author ÌìºÆ
  *
  */
@@ -54,7 +54,6 @@ public class IRandom {
 		} while (bits - val + (n - 1) < 0);
 		return val;
 	}
-	
 	
 
 }

@@ -4,6 +4,10 @@ import java.util.AbstractList;
 import java.util.Arrays;
 import java.util.RandomAccess;
 
+/**
+ * 简易集合
+ * @author 天浩
+ */
 public class SList<E> extends AbstractList<E> implements RandomAccess, java.io.Serializable {
 	private static final long serialVersionUID = -6168330278027606446L;
 	private final E[] array;

@@ -78,6 +78,11 @@ public class Arrays {
 		}
 	}
 
+	/**
+	 * 翻转数组
+	 * @param array
+	 * @return
+	 */
 	public static <T> T[] reverse(final T[] array) {
 		if (array == null) {
 			return null;
@@ -91,6 +96,11 @@ public class Arrays {
 		return array;
 	}
 
+	/**
+	 * join 组合数组
+	 * @param strs
+	 * @return
+	 */
 	public static String join(List<String> strs) {
 		StrBuffer buffer = new StrBuffer(strs.size());
 		for (String item : strs) {
@@ -99,6 +109,11 @@ public class Arrays {
 		return buffer.toString();
 	}
 
+	/**
+	 * 获取对象长度
+	 * @param array
+	 * @return
+	 */
 	public static int getLength(final Object array) {
 		if (array == null) {
 			return 0;

@@ -4,6 +4,8 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+import pers.th.util.text.StrBuffer;
+
 /**
  * 数组处理
  * @author 天浩
@@ -89,8 +91,12 @@ public class Arrays {
 		return array;
 	}
 
-	public static void join() {
-
+	public static String join(List<String> strs) {
+		StrBuffer buffer = new StrBuffer(strs.size());
+		for (String item : strs) {
+			buffer.append(item);
+		}
+		return buffer.toString();
 	}
 
 	public static int getLength(final Object array) {

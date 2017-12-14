@@ -58,7 +58,11 @@ public class XStrings {
 		return source != null && source.length() > 0;
 	}
 
-	
+	/**
+	 * 反转所有的字符串
+	 * @param param
+	 * @return
+	 */
 	public static String reverse(final String param) {
 		char[] value = param.toCharArray();
 		final int len = value.length;
@@ -68,6 +72,10 @@ public class XStrings {
 			value[len - 1 - i] = temp;
 		}
 		return new String(value);
+	}
+	
+	public void filter() {
+		
 	}
 	
 

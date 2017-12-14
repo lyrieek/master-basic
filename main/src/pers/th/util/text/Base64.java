@@ -1,5 +1,11 @@
 package pers.th.util.text;
 
+/**
+ * 受Apache-Commons-codec启发,简化其结构
+ * 
+ * @author 天浩
+ *
+ */
 public class Base64 {
 
 	protected static final int MASK_6BITS = 0x3f;

@@ -8,11 +8,15 @@ import java.util.Objects;
 import pers.th.util.Arrays;
 import pers.th.util.SystemInfo;
 
+/**
+ * ´úÌæStringBuffer
+ * @author ÌìºÆ
+ */
 public class StrBuffer implements CharSequence, Appendable, Serializable {
 	private static final long serialVersionUID = 628L;
 
-	protected volatile char[] value;
-	protected volatile int offset = 0;
+	protected char[] value;
+	protected int offset = 0;
 
 	/**
 	 * real data size

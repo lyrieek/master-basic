@@ -35,23 +35,24 @@ public class Token {
 
 	public synchronized String createKey() throws Exception {
 		//源获取
-		int source = Math.abs(Double.toHexString(Math.random()).hashCode() << 36);
-		if (source < 1) {
+		String source = Double.toHexString(Math.random());
+		if (source.length() == 0) {
 			//失效源重读
 			return createKey();
 		}
 		//结果空间初始化
-		char[] result = new char[(source + "" + System.nanoTime()).length() * 2];
+		char[] result = new char[(source + System.nanoTime()).length() * 2];
 		Random random = new Random();
 		for (int i = result.length - 1; i > 0; i -= 2) {
 			result[i] = (char) ((random.nextInt(26) + 'a'));
-			if (new Random().nextInt(10) == 1) {
-				result[i - 1] = (source+"").charAt(0);
+			if (new Random().nextInt(3) == 1) {
+				//参入数字
+				result[i - 1] = source.charAt(random.nextInt(source.length()));
 				continue;
 			}
 			result[i - 1] = (char) ((random.nextInt(26) + 'A'));
 		}
-		result[result.length-1] = new Random().nextInt(100) == 1 ? '/' : '-';
+		result[result.length-1] = random.nextInt(100) == 1 ? '/' : '-';
 		return key = new String(result);
 	}
 

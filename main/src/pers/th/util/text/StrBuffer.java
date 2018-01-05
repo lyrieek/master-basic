@@ -136,6 +136,28 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 		}
 		return this;
 	}
+	
+	/**
+	 * 如果以endString结束,删掉endString
+	 * @param endString
+	 */
+	public synchronized String rmEnd(final String endString) {
+		if (endsWith(endString)) {
+			return substring(0, size - endString.length());
+		}
+		return toString();
+	}
+	
+	/**
+	 * 如果以startString开始,删掉startString
+	 * @param startString
+	 */
+	public synchronized String rmStart(final String startString) {
+		if (startsWith(startString)) {
+			return substring(startString.length());
+		}
+		return toString();
+	}
 
 	@Override
 	public synchronized char charAt(final int index) {

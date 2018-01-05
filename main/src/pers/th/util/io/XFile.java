@@ -11,6 +11,7 @@ import pers.th.util.Arrays;
 
 /**
  * 文件处理
+ * 
  * @author 天浩
  *
  */
@@ -26,10 +27,15 @@ public class XFile extends File {
 		new XFile("D:\\Mozilla Firefox").printf();
 	}
 
+	/**
+	 * 立刻开启一个追加流输出文本并关闭流
+	 * 
+	 * @param context
+	 */
 	public void writeAndClose(String context) {
 		FileOutputStream fos = null;
 		try {
-			fos = new FileOutputStream(this);
+			fos = new FileOutputStream(this, true);
 			fos.write(context.getBytes());
 			fos.flush();
 		} catch (Exception e) {
@@ -39,7 +45,29 @@ public class XFile extends File {
 		}
 	}
 
-	public boolean move(File file) {
+	/**
+	 * 清空文件内容
+	 */
+	public void clear() {
+		FileOutputStream fos = null;
+		try {
+			fos = new FileOutputStream(this);
+			fos.write(new byte[0]);
+			fos.flush();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		} finally {
+			Arrays.close(fos);
+		}
+	}
+
+	/**
+	 * 复制文件到file
+	 * 
+	 * @param file
+	 * @return
+	 */
+	public boolean copyTo(File file) {
 		FileInputStream fis = null;
 		FileOutputStream fos = null;
 		try {
@@ -76,6 +104,7 @@ public class XFile extends File {
 
 	/**
 	 * 递归删除一个文件/目录
+	 * 
 	 * @param file
 	 * @return
 	 */
@@ -91,9 +120,10 @@ public class XFile extends File {
 		}
 		return !file.exists();
 	}
-	
+
 	/**
 	 * 获取一个文件
+	 * 
 	 * @param path
 	 * @return
 	 */
@@ -107,9 +137,10 @@ public class XFile extends File {
 		}
 		return file;
 	}
-	
+
 	/**
 	 * 直接读取文件
+	 * 
 	 * @param path
 	 * @return
 	 */
@@ -142,6 +173,7 @@ public class XFile extends File {
 
 	/**
 	 * 获取目录下的文件并递归子目录的文件
+	 * 
 	 * @param path
 	 * @return
 	 */
@@ -160,7 +192,7 @@ public class XFile extends File {
 		}
 		return files;
 	}
-	
+
 	public void each(FileHandle handle) {
 		if (isFile()) {
 			if (handle.filter(this)) {

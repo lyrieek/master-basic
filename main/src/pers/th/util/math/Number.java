@@ -41,6 +41,9 @@ public class Number {
 	}
 
 	private static int charToInt(char in) {
-		return Integer.parseInt(in + "");
+		if (in < '0' || in > '9') {
+			throw new RuntimeException("char to int exception:" + in + " not is number");
+		}
+		return (int) in - 48;
 	}
 }

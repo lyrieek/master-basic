@@ -1,5 +1,7 @@
 package pers.th.util;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
@@ -119,6 +121,25 @@ public class Arrays {
 			return 0;
 		}
 		return Array.getLength(array);
+	}
+
+	/**
+	 * close Closeable
+	 * @param cArr
+	 */
+	public static void close(Closeable... cArr) {
+		if (cArr == null) {
+			return;
+		}
+		try {
+			for (Closeable closeable : cArr) {
+				if (closeable != null) {
+					closeable.close();
+				}
+			}
+		} catch (IOException e) {
+			throw new RuntimeException("can't close", e);
+		}
 	}
 
 }

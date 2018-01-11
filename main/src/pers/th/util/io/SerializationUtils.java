@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+/**
+ * 序列化工具
+ */
 public class SerializationUtils {
 
 	/**
@@ -15,7 +18,7 @@ public class SerializationUtils {
 	 *            the object to serialize
 	 * @return an array of bytes representing the object in a portable fashion
 	 */
-	public static byte[] serialize(Object object) {
+	public static byte[] serialize(final Object object) {
 		if (object == null) {
 			return null;
 		}
@@ -25,7 +28,9 @@ public class SerializationUtils {
 			oos.writeObject(object);
 			oos.flush();
 		} catch (IOException ex) {
-			throw new IllegalArgumentException("Failed to serialize object of type: " + object.getClass(), ex);
+			throw new RuntimeException(ex);
+		} finally {
+			IOUtils.close(baos);
 		}
 		return baos.toByteArray();
 	}
@@ -37,17 +42,17 @@ public class SerializationUtils {
 	 *            a serialized object
 	 * @return the result of deserializing the bytes
 	 */
-	public static Object deserialize(byte[] bytes) {
+	public static Object deserialize(final byte[] bytes) {
 		if (bytes == null) {
 			return null;
 		}
+		ObjectInputStream ois = null;
 		try {
-			ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(bytes));
-			return ois.readObject();
-		} catch (IOException ex) {
-			throw new IllegalArgumentException("Failed to deserialize object", ex);
-		} catch (ClassNotFoundException ex) {
-			throw new IllegalStateException("Failed to deserialize object type", ex);
+			return (ois = new ObjectInputStream(new ByteArrayInputStream(bytes))).readObject();
+		} catch (Exception ex) {
+			throw new RuntimeException(ex);
+		} finally {
+			IOUtils.close(ois);
 		}
 	}
 

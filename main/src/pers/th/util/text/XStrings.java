@@ -7,9 +7,13 @@ public class XStrings {
 
 	/**
 	 * 将行打散并且格式化每一行
-	 * @param source 源
-	 * @param target 待替换正则
-	 * @param replace 替换文本
+	 * 
+	 * @param source
+	 *            源
+	 * @param target
+	 *            待替换正则
+	 * @param replace
+	 *            替换文本
 	 * @return
 	 */
 	public static String[] lines(String source, String target, String replace) {
@@ -26,14 +30,14 @@ public class XStrings {
 	public static String[] lines(String source) {
 		return source.split(SystemInfo.LINE_SEPARATOR);
 	}
-	
+
 	/**
-     * <pre>
+	 * <pre>
 	 * isEmpty(null);   true
 	 * isEmpty("");     true
-     * isEmpty(" ")     false
-     * isEmpty("a")     false
-     * </pre>
+	 * isEmpty(" ")     false
+	 * isEmpty("a")     false
+	 * </pre>
 	 * 
 	 * @param source
 	 * @return
@@ -41,16 +45,17 @@ public class XStrings {
 	public static boolean isEmpty(CharSequence source) {
 		return source == null || source.length() == 0;
 	}
-	
+
 	public static boolean hasEmpty(CharSequence... source) {
 		if (Arrays.hasEmpty(source)) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	/**
 	 * !isEmpty
+	 * 
 	 * @param source
 	 * @return
 	 */
@@ -60,6 +65,7 @@ public class XStrings {
 
 	/**
 	 * 反转所有的字符串
+	 * 
 	 * @param param
 	 * @return
 	 */
@@ -73,10 +79,39 @@ public class XStrings {
 		}
 		return new String(value);
 	}
-	
-	public void filter() {
-		
+
+	public static void main(String[] args) {
+		System.out.println(tear("asd asd v19 dc hhh sdf 123 asd v5c", "sdf", "asd", 0));
 	}
-	
+
+	/**
+	 * 截取两块文本中的文本
+	 * 
+	 * <pre>
+	 * e.g:
+	 * tear("asd asd v19 dc hhh sdf 123 asd v5c", "v", "c", 20) >> 5
+	 * tear("asd asd v19 dc hhh sdf 123 asd v5c", "v", "c", 0) >> 19 d
+	 * tear("asd asd v19 dc hhh sdf 123 asd v5c", "asd", "dc", 0) >>  asd v19
+	 * tear("asd asd v19 dc hhh sdf 123 asd v5c", "sdf", "asd", 0) >>  123 
+	 * </pre>
+	 * 
+	 * @param source
+	 *            源文本
+	 * @param begin
+	 *            起点文本
+	 * @param end
+	 *            结数文本
+	 * @param index
+	 *            寻找点
+	 * @return
+	 */
+	public static String tear(String source, String begin, String end, int index) {
+		int fromIndex = source.indexOf(begin, index) + begin.length();
+		return source.substring(fromIndex, source.indexOf(end, fromIndex));
+	}
+
+	public void filter() {
+
+	}
 
 }

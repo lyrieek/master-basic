@@ -3,7 +3,6 @@ package pers.th.util.io;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +17,7 @@ import pers.th.util.Arrays;
 public class XFile extends File {
 
 	private static final long serialVersionUID = 1L;
+	
 
 	public XFile(String pathname) {
 		super(pathname);
@@ -137,39 +137,11 @@ public class XFile extends File {
 		}
 		return file;
 	}
-
-	/**
-	 * 直接读取文件
-	 * 
-	 * @param path
-	 * @return
-	 */
-	public static String reader(String path) {
-		File file = getFile(path);
-		if (file == null || !file.isFile()) {
-			return "";
-		}
-		int length = 0;
-		byte[] buffer = new byte[512];
-		StringBuffer template = new StringBuffer();
-		FileInputStream fis = null;
-		try {
-			fis = new FileInputStream(path);
-			while ((length = fis.read(buffer)) != -1) {
-				template.append(new String(buffer, 0, length));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		if (fis != null) {
-			try {
-				fis.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		return template.toString();
+	
+	public String context() {
+		return IOUtils.reader(getPath());
 	}
+	
 
 	/**
 	 * 获取目录下的文件并递归子目录的文件

@@ -1,5 +1,10 @@
 package pers.th.util.text;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import pers.th.util.Arrays;
 import pers.th.util.SystemInfo;
 
@@ -80,10 +85,6 @@ public class XStrings {
 		return new String(value);
 	}
 
-	public static void main(String[] args) {
-		System.out.println(tear("asd asd v19 dc hhh sdf 123 asd v5c", "sdf", "asd", 0));
-	}
-
 	/**
 	 * 截取两块文本中的文本
 	 * 
@@ -92,7 +93,7 @@ public class XStrings {
 	 * tear("asd asd v19 dc hhh sdf 123 asd v5c", "v", "c", 20) >> 5
 	 * tear("asd asd v19 dc hhh sdf 123 asd v5c", "v", "c", 0) >> 19 d
 	 * tear("asd asd v19 dc hhh sdf 123 asd v5c", "asd", "dc", 0) >>  asd v19
-	 * tear("asd asd v19 dc hhh sdf 123 asd v5c", "sdf", "asd", 0) >>  123 
+	 * tear("asd asd v19 dc hhh sdf 123 asd v5c", "sdf", "asd", 0) >>  123
 	 * </pre>
 	 * 
 	 * @param source
@@ -110,8 +111,25 @@ public class XStrings {
 		return source.substring(fromIndex, source.indexOf(end, fromIndex));
 	}
 
+	public static Set<String> getRegexList(String input, String regex) {
+		Matcher pattern = Pattern.compile(regex).matcher(input);
+		Set<String> list = new HashSet<>();
+		while (pattern.find()) {
+			list.add(pattern.group());
+		}
+		return list;
+	}
+
+	public static void main(String[] args) {
+		System.out.println(getRegexList("sda 23 d f 434 ds 2 d", "\\d+"));
+	}
+
 	public void filter() {
 
+	}
+
+	public static String join(String[] split) {
+		return Arrays.join(java.util.Arrays.asList(split));
 	}
 
 }

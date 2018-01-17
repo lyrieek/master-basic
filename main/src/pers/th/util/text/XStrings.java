@@ -50,6 +50,21 @@ public class XStrings {
 	public static boolean isEmpty(CharSequence source) {
 		return source == null || source.length() == 0;
 	}
+	
+	/**
+	 * <pre>
+	 * isBlack(null);   true
+	 * isBlack("");     true
+	 * isBlack(" ")     true
+	 * isBlack("a")     false
+	 * </pre>
+	 * 
+	 * @param source
+	 * @return
+	 */
+	public static boolean isBlack(CharSequence source) {
+		return source == null || source.toString().trim().length() == 0;
+	}
 
 	public static boolean hasEmpty(CharSequence... source) {
 		if (Arrays.hasEmpty(source)) {
@@ -118,10 +133,6 @@ public class XStrings {
 			list.add(pattern.group());
 		}
 		return list;
-	}
-
-	public static void main(String[] args) {
-		System.out.println(getRegexList("sda 23 d f 434 ds 2 d", "\\d+"));
 	}
 
 	public void filter() {

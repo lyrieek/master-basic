@@ -56,7 +56,7 @@ public class IOUtils {
 		try {
 			closeable.close();
 		} catch (IOException e) {
-			throw new RuntimeException("can't close:" + e);
+			throw new RuntimeException("IOUtils.close(): can't close:" + e);
 		}
 	}
 
@@ -73,6 +73,7 @@ public class IOUtils {
 		while ((len = inStream.read(buff)) > 0) {
 			byteStream.write(buff, 0, len);
 		}
+		close(inStream);
 		return new String(byteStream.toByteArray(), 0, byteStream.size(), charset);
 	}
 
@@ -88,6 +89,13 @@ public class IOUtils {
 			count += n;
 		}
 		return count;
+	}
+
+	public static void wrtier(String fileOutPath, String context) {
+		XFile xfile = new XFile(fileOutPath);
+		if (xfile.exists()) {
+			xfile.writeAndClose(context);
+		}
 	}
 
 }

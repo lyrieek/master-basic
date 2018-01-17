@@ -3,17 +3,9 @@ package pers.th.util.io;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+import java.util.List;
 
 public class LineReader {
-	public LineReader(InputStream inStream) {
-		this.inStream = inStream;
-		inByteBuf = new byte[8192];
-	}
-
-	public LineReader(Reader reader) {
-		this.reader = reader;
-		inCharBuf = new char[8192];
-	}
 
 	byte[] inByteBuf;
 	char[] inCharBuf;
@@ -23,6 +15,16 @@ public class LineReader {
 	InputStream inStream;
 	Reader reader;
 
+	public LineReader(InputStream inStream) {
+		this.inStream = inStream;
+		inByteBuf = new byte[8192];
+	}
+
+	public LineReader(Reader reader) {
+		this.reader = reader;
+		inCharBuf = new char[8192];
+	}
+	
 	int readLine() throws IOException {
 		int len = 0;
 		char c = 0;
@@ -129,4 +131,9 @@ public class LineReader {
 			}
 		}
 	}
+	
+	public static List<String> read(){
+		return null;
+	}
+	
 }

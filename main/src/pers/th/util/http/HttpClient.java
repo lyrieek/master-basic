@@ -47,16 +47,21 @@ public class HttpClient {
 
 	}
 
-	public String getHTML(String path) throws Exception {
-		HttpURLConnection huc = (HttpURLConnection) new URL(path).openConnection();
-		for (Entry<Object, Object> item : prop) {
-			huc.addRequestProperty(item.getKey().toString(), item.getValue().toString());
+	public String get(String path) {
+		try {
+			HttpURLConnection huc = (HttpURLConnection) new URL(path).openConnection();
+			for (Entry<Object, Object> item : prop) {
+				huc.addRequestProperty(item.getKey().toString(), item.getValue().toString());
+			}
+			huc.setConnectTimeout(2000);
+			huc.connect();
+			final String result = IOUtils.toString(huc.getInputStream(), charSet);
+			IOUtils.close(huc);
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		huc.setConnectTimeout(2000);
-		huc.connect();
-		final String result = IOUtils.toString(huc.getInputStream(), charSet);
-		IOUtils.close(huc);
-		return result;
+		return "";
 	}
 
 }

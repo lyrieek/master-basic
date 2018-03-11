@@ -5,8 +5,8 @@ import java.util.Arrays;
 import java.util.RandomAccess;
 
 /**
- * ¼òÒ×¼¯ºÏ
- * @author ÌìºÆ
+ * ç®€æ˜“é›†åˆ
+ * @author å¤©æµ©
  */
 public class SList<E> extends AbstractList<E> implements RandomAccess, java.io.Serializable {
 	private static final long serialVersionUID = -6168330278027606446L;

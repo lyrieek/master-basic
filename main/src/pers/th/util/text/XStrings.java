@@ -1,24 +1,24 @@
 package pers.th.util.text;
 
+import pers.th.util.Arrays;
+import pers.th.util.SystemInfo;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import pers.th.util.Arrays;
-import pers.th.util.SystemInfo;
-
 public class XStrings {
 
 	/**
-	 * ½«ĞĞ´òÉ¢²¢ÇÒ¸ñÊ½»¯Ã¿Ò»ĞĞ
+	 * å°†è¡Œæ‰“æ•£å¹¶ä¸”æ ¼å¼åŒ–æ¯ä¸€è¡Œ
 	 * 
 	 * @param source
-	 *            Ô´
+	 *            æº
 	 * @param target
-	 *            ´ıÌæ»»ÕıÔò
+	 *            å¾…æ›¿æ¢æ­£åˆ™
 	 * @param replace
-	 *            Ìæ»»ÎÄ±¾
+	 *            æ›¿æ¢æ–‡æœ¬
 	 * @return
 	 */
 	public static String[] lines(String source, String target, String replace) {
@@ -30,7 +30,7 @@ public class XStrings {
 	}
 
 	/**
-	 * ÒÀ¾İĞĞ·û´òÉ¢×Ö·û´®
+	 * ä¾æ®è¡Œç¬¦æ‰“æ•£å­—ç¬¦ä¸²
 	 */
 	public static String[] lines(String source) {
 		return source.split(SystemInfo.LINE_SEPARATOR);
@@ -84,7 +84,7 @@ public class XStrings {
 	}
 
 	/**
-	 * ·´×ªËùÓĞµÄ×Ö·û´®
+	 * åè½¬æ‰€æœ‰çš„å­—ç¬¦ä¸²
 	 * 
 	 * @param param
 	 * @return
@@ -101,7 +101,7 @@ public class XStrings {
 	}
 
 	/**
-	 * ½ØÈ¡Á½¿éÎÄ±¾ÖĞµÄÎÄ±¾
+	 * æˆªå–ä¸¤å—æ–‡æœ¬ä¸­çš„æ–‡æœ¬
 	 * 
 	 * <pre>
 	 * e.g:
@@ -112,13 +112,13 @@ public class XStrings {
 	 * </pre>
 	 * 
 	 * @param source
-	 *            Ô´ÎÄ±¾
+	 *            æºæ–‡æœ¬
 	 * @param begin
-	 *            ÆğµãÎÄ±¾
+	 *            èµ·ç‚¹æ–‡æœ¬
 	 * @param end
-	 *            ½áÊıÎÄ±¾
+	 *            ç»“æ•°æ–‡æœ¬
 	 * @param index
-	 *            Ñ°ÕÒµã
+	 *            å¯»æ‰¾ç‚¹
 	 * @return
 	 */
 	public static String tear(String source, String begin, String end, int index) {

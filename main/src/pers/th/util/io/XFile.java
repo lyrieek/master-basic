@@ -3,24 +3,32 @@ package pers.th.util.io;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
 import pers.th.util.Arrays;
 
 /**
- * ÎÄ¼ş´¦Àí
+ * æ–‡ä»¶å¤„ç†
  * 
- * @author ÌìºÆ
+ * @author å¤©æµ©
  *
  */
 public class XFile extends File {
 
 	private static final long serialVersionUID = 1L;
-	
+	private Charset charset = Charset.defaultCharset();
+
 
 	public XFile(String pathname) {
 		super(pathname);
+	}
+
+
+	public XFile(String pathname, Charset charset) {
+		super(pathname);
+		this.charset = charset;
 	}
 
 	public static void main(String[] args) {
@@ -28,7 +36,7 @@ public class XFile extends File {
 	}
 
 	/**
-	 * Á¢¿Ì¿ªÆôÒ»¸ö×·¼ÓÁ÷Êä³öÎÄ±¾²¢¹Ø±ÕÁ÷
+	 * ç«‹åˆ»å¼€å¯ä¸€ä¸ªè¿½åŠ æµè¾“å‡ºæ–‡æœ¬å¹¶å…³é—­æµ
 	 * 
 	 * @param context
 	 */
@@ -36,7 +44,7 @@ public class XFile extends File {
 		FileOutputStream fos = null;
 		try {
 			fos = new FileOutputStream(this, true);
-			fos.write(context.getBytes());
+			fos.write(context.getBytes(charset));
 			fos.flush();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
@@ -46,7 +54,7 @@ public class XFile extends File {
 	}
 
 	/**
-	 * Çå¿ÕÎÄ¼şÄÚÈİ
+	 * æ¸…ç©ºæ–‡ä»¶å†…å®¹
 	 */
 	public void clear() {
 		FileOutputStream fos = null;
@@ -62,7 +70,7 @@ public class XFile extends File {
 	}
 
 	/**
-	 * ¸´ÖÆÎÄ¼şµ½file
+	 * å¤åˆ¶æ–‡ä»¶åˆ°file
 	 * 
 	 * @param file
 	 * @return
@@ -76,7 +84,7 @@ public class XFile extends File {
 			}
 			fis = new FileInputStream(this);
 			fos = new FileOutputStream(file);
-			int length = -1;
+			int length;
 			byte[] buffer = new byte[8142];
 			while ((length = fis.read(buffer)) != -1) {
 				fos.write(buffer, 0, length);
@@ -103,7 +111,7 @@ public class XFile extends File {
 	}
 
 	/**
-	 * µİ¹éÉ¾³ıÒ»¸öÎÄ¼ş/Ä¿Â¼
+	 * é€’å½’åˆ é™¤ä¸€ä¸ªæ–‡ä»¶/ç›®å½•
 	 * 
 	 * @param file
 	 * @return
@@ -113,16 +121,19 @@ public class XFile extends File {
 			return file.delete();
 		}
 		if (file.isDirectory()) {
-			for (File item : file.listFiles()) {
-				rm(item);
+			File[] files = file.listFiles();
+			if (files != null) {
+				for (File item : files) {
+				    rm(item);
+				}
 			}
-			file.delete();
+			return file.delete();
 		}
 		return !file.exists();
 	}
 
 	/**
-	 * »ñÈ¡Ò»¸öÎÄ¼ş
+	 * è·å–ä¸€ä¸ªæ–‡ä»¶
 	 * 
 	 * @param path
 	 * @return
@@ -144,7 +155,7 @@ public class XFile extends File {
 	
 
 	/**
-	 * »ñÈ¡Ä¿Â¼ÏÂµÄÎÄ¼ş²¢µİ¹é×ÓÄ¿Â¼µÄÎÄ¼ş
+	 * è·å–ç›®å½•ä¸‹çš„æ–‡ä»¶å¹¶é€’å½’å­ç›®å½•çš„æ–‡ä»¶
 	 * 
 	 * @param path
 	 * @return

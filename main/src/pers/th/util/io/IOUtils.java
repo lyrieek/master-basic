@@ -21,7 +21,7 @@ public class IOUtils {
 	}
 
 	/**
-	 * 直接读取文件
+	 * 鐩存帴璇诲彇鏂囦欢
 	 * 
 	 * @param path
 	 * @return
@@ -68,7 +68,7 @@ public class IOUtils {
 
 	public static String toString(InputStream inStream, Charset charset) throws IOException {
 		byte[] buff = new byte[DEFAULT_BUFFER_SIZE];
-		int len = 0;
+		int len;
 		ByteArrayOutputStream byteStream = new ByteArrayOutputStream(DEFAULT_BUFFER_SIZE);
 		while ((len = inStream.read(buff)) > 0) {
 			byteStream.write(buff, 0, len);
@@ -98,4 +98,10 @@ public class IOUtils {
 		}
 	}
 
+	public static void write(String fileOutPath, String content, Charset charset) {
+		XFile xfile = new XFile(fileOutPath,charset);
+		if (xfile.exists()) {
+			xfile.writeAndClose(content);
+		}
+	}
 }

@@ -19,6 +19,13 @@ public class DateFormatter {
 		return DATE_FORMAT.format(date);
 	}
 
+	public static String toDateTimeString(Date date) {
+		if (date == null) {
+			date = new Date();
+		}
+		return DATE_TIME_FORMAT.format(date);
+	}
+
 	public static String formatDate(Date date, String format) {
 		try {
 			return new SimpleDateFormat(format).format(date);

@@ -9,8 +9,8 @@ import pers.th.util.Arrays;
 import pers.th.util.SystemInfo;
 
 /**
- * ´úÌæStringBuffer
- * @author ÌìºÆ
+ * ä»£æ›¿StringBuffer
+ * @author å¤©æµ©
  */
 public class StrBuffer implements CharSequence, Appendable, Serializable {
 	private static final long serialVersionUID = 628L;
@@ -21,7 +21,7 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 	/**
 	 * real data size
 	 */
-	protected volatile int size;
+	protected int size;
 
 	public StrBuffer(int size) {
 		value = new char[size];
@@ -37,12 +37,12 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 	}
 
 	/**
-	 * ÔÚÏÖÓĞÎÄ±¾Ö®Ç°²åÈëÎÄ±¾
+	 * åœ¨ç°æœ‰æ–‡æœ¬ä¹‹å‰æ’å…¥æ–‡æœ¬
 	 * 
 	 * @param str
 	 * @return
 	 */
-	public synchronized StrBuffer after(String str) {
+	public StrBuffer after(String str) {
 		if (str == null || str.trim().length() == 0) {
 			return this;
 		}
@@ -56,14 +56,14 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 
 	/**
 	 * <pre>
-	 * °ü¹üÎÄ±¾:
+	 * åŒ…è£¹æ–‡æœ¬:
 	 * 	"1".wrap("2"); 212
 	 * 	"abc".wrap("123"); 321abc123
 	 * </pre>
 	 * @param str
 	 * @return
 	 */
-	public synchronized StrBuffer wrap(String str) {
+	public StrBuffer wrap(String str) {
 		after(XStrings.reverse(str));
 		dilatation(str.length());
 		str.getChars(0, str.length(), value, size);
@@ -72,14 +72,14 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 	}
 
 	/**
-	 * ÒÆ¶¯real sizeË÷ÒıµÄÎ»ÖÃ
+	 * ç§»åŠ¨real sizeç´¢å¼•çš„ä½ç½®
 	 * @param index
 	 */
-	public synchronized void move(int index) {
+	public void move(int index) {
 		size = index;
 	}
 
-	public synchronized StrBuffer reverse() {
+	public StrBuffer reverse() {
 		minimizeCapacity();
 		final int len = value.length;
 		for (int i = 0; i < len / 2; i++) {
@@ -91,13 +91,13 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 	}
 
 	/**
-	 * ¼ì²é×Ô¶¯À©Èİ,Ä¬ÈÏÀ©³äcapacityµÄÈı·ÖÖ®Ò»
+	 * æ£€æŸ¥è‡ªåŠ¨æ‰©å®¹,é»˜è®¤æ‰©å……capacityçš„ä¸‰åˆ†ä¹‹ä¸€
 	 * 
 	 * @param capacity
-	 *            ¸ø¶¨´óĞ¡,Èç¹ûdata³¬¹ı´Ë´óĞ¡½«Æô¶¯À©Èİ
+	 *            ç»™å®šå¤§å°,å¦‚æœdataè¶…è¿‡æ­¤å¤§å°å°†å¯åŠ¨æ‰©å®¹
 	 * @return
 	 */
-	public synchronized StrBuffer dilatation(int capacity) {
+	public StrBuffer dilatation(int capacity) {
 		capacity = size + capacity;
 		if (capacity > value.length) {
 			System.arraycopy(value, 0, value = new char[capacity * 3 / 2], 0, size);
@@ -106,11 +106,10 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 	}
 
 	/**
-	 * ×îĞ¡»¯ÈİÁ¿,Ê¹real size=data length
+	 * æœ€å°åŒ–å®¹é‡,ä½¿real size=data length
 	 * 
-	 * @return
 	 */
-	public synchronized StrBuffer minimizeCapacity() {
+	public StrBuffer minimizeCapacity() {
 		if (value.length > size) {
 			final char[] old = value;
 			value = new char[size];
@@ -120,28 +119,28 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 	}
 
 	/**
-	 * ÉèÖÃ³¤¶È,¿ÉÄÜ»á·¢ÉúÀ©Èİ
+	 * è®¾ç½®é•¿åº¦,å¯èƒ½ä¼šå‘ç”Ÿæ‰©å®¹
 	 * 
 	 * @param length
 	 * @return
 	 */
-	public synchronized StrBuffer setLength(final int length) {
+	public StrBuffer setLength(final int length) {
 		if (length < 0) {
 			throw new StringIndexOutOfBoundsException(length);
 		}
 		dilatation(length - size);
-		size = length;
 		for (int i = length; i < size; i++) {
 			value[i] = ' ';
 		}
+		size = length;
 		return this;
 	}
 	
 	/**
-	 * Èç¹ûÒÔendString½áÊø,É¾µôendString
+	 * å¦‚æœä»¥endStringç»“æŸ,åˆ æ‰endString
 	 * @param endString
 	 */
-	public synchronized String rmEnd(final String endString) {
+	public String rmEnd(final String endString) {
 		if (endsWith(endString)) {
 			return substring(0, size - endString.length());
 		}
@@ -149,10 +148,10 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 	}
 	
 	/**
-	 * Èç¹ûÒÔstartString¿ªÊ¼,É¾µôstartString
+	 * å¦‚æœä»¥startStringå¼€å§‹,åˆ æ‰startString
 	 * @param startString
 	 */
-	public synchronized String rmStart(final String startString) {
+	public String rmStart(final String startString) {
 		if (startsWith(startString)) {
 			return substring(startString.length());
 		}
@@ -160,21 +159,21 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 	}
 
 	@Override
-	public synchronized char charAt(final int index) {
+	public char charAt(final int index) {
 		if (validateIndex(index)) {
 			return value[index];
 		}
 		throw new StringIndexOutOfBoundsException(index);
 	}
 
-	public synchronized StrBuffer set(final int index, final char ch) {
+	public StrBuffer set(final int index, final char ch) {
 		if (validateIndex(index)) {
 			value[index] = ch;
 		}
 		return this;
 	}
 
-	public synchronized StrBuffer deleteCharAt(final int index) {
+	public StrBuffer deleteCharAt(final int index) {
 		if (validateIndex(index)) {
 			delete(index, index + 1, 1);
 			return this;
@@ -182,7 +181,7 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 		throw new StringIndexOutOfBoundsException(index);
 	}
 
-	public synchronized char[] toCharArray() {
+	public char[] toCharArray() {
 		if (size == 0) {
 			return Arrays.EMPTY_CHARS;
 		}
@@ -191,7 +190,7 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 		return chars;
 	}
 
-	public synchronized char[] toCharArray(final int begin, int end) {
+	public char[] toCharArray(final int begin, int end) {
 		if (size == 0) {
 			return Arrays.EMPTY_CHARS;
 		}
@@ -200,7 +199,7 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 		return chars;
 	}
 
-	public synchronized char[] getChars(char[] destination) {
+	public char[] getChars(char[] destination) {
 		if (destination == null || destination.length < size) {
 			destination = new char[size];
 		}
@@ -233,7 +232,7 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 		return append(seq.toString(), begin, length);
 	}
 
-	public synchronized StrBuffer append(final String str) {
+	public StrBuffer append(final String str) {
 		if (str == null) {
 			return this;
 		}
@@ -244,7 +243,7 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 		return this;
 	}
 
-	public synchronized StrBuffer append(final String str, final int begin, final int length) {
+	public StrBuffer append(final String str, final int begin, final int length) {
 		if (begin < 0 || begin + length > str.length() || length <= 0) {
 			throw new StringIndexOutOfBoundsException(
 					String.format("Index & length must be valid:%s,%d,%d", str, begin, length));
@@ -263,7 +262,7 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 		return append(chars, 0, chars.length);
 	}
 
-	public synchronized StrBuffer append(final char[] chars, final int begin, final int length) {
+	public StrBuffer append(final char[] chars, final int begin, final int length) {
 		if (begin < 0 || begin > chars.length || length < 0 || (begin + length) > chars.length || length < 0) {
 			throw new StringIndexOutOfBoundsException(
 					String.format("Invalid append:chars:%s,beginIndex:%d,length:%d", new String(chars), begin, length));
@@ -273,7 +272,7 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 		return this;
 	}
 
-	public synchronized StrBuffer append(final char ch) {
+	public StrBuffer append(final char ch) {
 		dilatation(1).value[size++] = ch;
 		return this;
 	}
@@ -322,14 +321,14 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 	}
 
 	/**
-	 * Ìí¼Ócount¸öpadChar×Ö·û
+	 * æ·»åŠ countä¸ªpadCharå­—ç¬¦
 	 * 
 	 * @param padChar
-	 *            ×Ö·û
+	 *            å­—ç¬¦
 	 * @param count
-	 *            Ìí¼ÓÊıÁ¿
+	 *            æ·»åŠ æ•°é‡
 	 */
-	public synchronized StrBuffer append(final char padChar, final int count) {
+	public StrBuffer append(final char padChar, final int count) {
 		if (count > 0) {
 			dilatation(count);
 			for (int i = 0; i < count; i++) {
@@ -339,7 +338,7 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 		return this;
 	}
 
-	public synchronized StrBuffer insert(final int index, String str) {
+	public StrBuffer insert(final int index, String str) {
 		if (validateIndex(index) && str != null) {
 			final int strLen = str.length();
 			if (strLen > 0) {
@@ -352,7 +351,7 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 		return this;
 	}
 
-	public synchronized StrBuffer insert(final int index, final char chars[], final int offset, final int length) {
+	public StrBuffer insert(final int index, final char chars[], final int offset, final int length) {
 		if (validateIndex(index) || offset < 0 || offset > chars.length || length < 0 || offset + length > chars.length
 				|| length < 0) {
 			throw new StringIndexOutOfBoundsException(String.format(
@@ -365,7 +364,7 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 		return this;
 	}
 
-	public synchronized StrBuffer delete(final int begin, final int end, final int length) {
+	public StrBuffer delete(final int begin, final int end, final int length) {
 		System.arraycopy(value, end, value, begin, size - end);
 		size -= length;
 		return this;
@@ -375,7 +374,7 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 		return delete(begin, end = validateRange(begin, end), end - begin);
 	}
 
-	public synchronized StrBuffer deleteAll(final char ch) {
+	public StrBuffer deleteAll(final char ch) {
 		for (int i = 0; i < size; i++) {
 			if (value[i] == ch) {
 				final int start = i;
@@ -392,7 +391,7 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 		return this;
 	}
 
-	public synchronized StrBuffer deleteFirst(final char ch) {
+	public StrBuffer deleteFirst(final char ch) {
 		for (int i = 0; i < size; i++) {
 			if (value[i] == ch) {
 				delete(i, i + 1, 1);
@@ -402,7 +401,7 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 		return this;
 	}
 
-	public synchronized StrBuffer deleteAll(final String str) {
+	public StrBuffer deleteAll(final String str) {
 		int index = indexOf(str, 0);
 		while (index != -1) {
 			delete(index, index + str.length(), str.length());
@@ -411,7 +410,7 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 		return this;
 	}
 
-	public synchronized StrBuffer deleteFirst(final String str) {
+	public StrBuffer deleteFirst(final String str) {
 		final int len = (str == null ? 0 : str.length());
 		if (len > 0) {
 			final int index = indexOf(str, 0);
@@ -422,7 +421,7 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 		return this;
 	}
 
-	public synchronized void replace(final int begin, final int end, final int rmLength,
+	public void replace(final int begin, final int end, final int rmLength,
 			final String insert, final int insertLength) {
 		final int newSize = size - rmLength + insertLength;
 		if (insertLength != rmLength) {
@@ -435,7 +434,7 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 		}
 	}
 
-	public synchronized StrBuffer replace(final int begin, int end, final String replace) {
+	public StrBuffer replace(final int begin, int end, final String replace) {
 		end = validateRange(begin, end);
 		final int insertLen = (replace == null ? 0 : replace.length());
 		replace(begin, end, end - begin, replace, insertLen);
@@ -445,14 +444,14 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 	/**
 	 * 
 	 * @param search
-	 *            ²éÑ¯µÄchar
+	 *            æŸ¥è¯¢çš„char
 	 * @param replace
-	 *            Ìæ»»µÄchar
+	 *            æ›¿æ¢çš„char
 	 * @param isAll
-	 *            ÊÇ·ñÌæ»»ËùÓĞµÄchar
+	 *            æ˜¯å¦æ›¿æ¢æ‰€æœ‰çš„char
 	 * @return
 	 */
-	public synchronized StrBuffer replace(final char search, final char replace, boolean isAll) {
+	public StrBuffer replace(final char search, final char replace, boolean isAll) {
 		if (search == replace) {
 			return this;
 		}
@@ -467,7 +466,7 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 		return this;
 	}
 
-	public synchronized StrBuffer replaceAll(final String search, final String replace) {
+	public StrBuffer replaceAll(final String search, final String replace) {
 		final int length = (search == null ? 0 : search.length());
 		if (length > 0) {
 			final int replaceLen = (replace == null ? 0 : replace.length());
@@ -493,7 +492,7 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 	}
 
 	/**
-	 * Çå¿Õ×Ö·û´®Í·Î²¿Õ°×²¿·Ö,²¢ÇÒ×îĞ¡»¯×Ö·û´®
+	 * æ¸…ç©ºå­—ç¬¦ä¸²å¤´å°¾ç©ºç™½éƒ¨åˆ†,å¹¶ä¸”æœ€å°åŒ–å­—ç¬¦ä¸²
 	 * 
 	 * @return
 	 */
@@ -520,22 +519,22 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 	}
 
 	/**
-	 * @param ×îÖÕ»ñÈ¡µÄÆğÊ¼Î»ÖÃ:Ä¬ÈÏ0
+	 * @param offset æœ€ç»ˆè·å–çš„èµ·å§‹ä½ç½®:default 0
 	 * @return
 	 */
-	public synchronized StrBuffer setOffset(final int offset) {
+	public StrBuffer setOffset(final int offset) {
 		this.offset = offset;
 		return this;
 	}
 
 	/**
-	 * @return ×îÖÕ»ñÈ¡µÄÆğÊ¼Î»ÖÃ:Ä¬ÈÏ0
+	 * @return æœ€ç»ˆè·å–çš„èµ·å§‹ä½ç½®:é»˜è®¤0
 	 */
-	public synchronized int offset() {
+	public int offset() {
 		return offset;
 	}
 
-	public synchronized boolean startsWith(final String str) {
+	public boolean startsWith(final String str) {
 		if (str == null) {
 			return false;
 		}
@@ -554,7 +553,7 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 		return true;
 	}
 
-	public synchronized boolean endsWith(final String str) {
+	public boolean endsWith(final String str) {
 		if (str == null) {
 			return false;
 		}
@@ -580,7 +579,7 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 	}
 
 	/**
-	 * setOffset(start)ÓµÓĞ¸ü¸ßµÄĞ§ÂÊ
+	 * setOffset(start)æ‹¥æœ‰æ›´é«˜çš„æ•ˆç‡
 	 * 
 	 * @param begin
 	 * @return
@@ -589,18 +588,18 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 		return substring(begin, size);
 	}
 
-	public synchronized String substring(final int begin, final int end) {
+	public String substring(final int begin, final int end) {
 		return new String(value, begin, end - begin);
 	}
 
-	public synchronized String left(final int length) {
+	public String left(final int length) {
 		if (length <= 0) {
 			return "";
 		}
 		return new String(value, 0, length);
 	}
 
-	public synchronized String right(final int length) {
+	public String right(final int length) {
 		if (length <= 0) {
 			return "";
 		} else if (length >= size) {
@@ -609,7 +608,7 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 		return new String(value, size - length, length);
 	}
 
-	public synchronized boolean contains(final char ch) {
+	public boolean contains(final char ch) {
 		final char[] thisBuf = value;
 		for (int i = 0; i < size; i++) {
 			if (thisBuf[i] == ch) {
@@ -619,11 +618,11 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 		return false;
 	}
 
-	public synchronized boolean contains(final String str) {
+	public boolean contains(final String str) {
 		return indexOf(str, 0) >= 0;
 	}
 
-	public synchronized int indexOf(final char ch, int begin) {
+	public int indexOf(final char ch, int begin) {
 		begin = (begin < 0 ? 0 : begin);
 		if (begin >= size) {
 			return -1;
@@ -642,15 +641,15 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 	}
 
 	/**
-	 * ²éÕÒ×Ö·û´®
+	 * æŸ¥æ‰¾å­—ç¬¦ä¸²
 	 * 
 	 * @param str
-	 *            ²éÕÒµÄ×Ö·û´®
+	 *            æŸ¥æ‰¾çš„å­—ç¬¦ä¸²
 	 * @param index
-	 *            ¿ªÊ¼²éÕÒµÄË÷Òı
-	 * @return ËüµÄË÷Òı,ÕÒ²»µ½Ôò·µ»Ø-1
+	 *            å¼€å§‹æŸ¥æ‰¾çš„ç´¢å¼•
+	 * @return å®ƒçš„ç´¢å¼•,æ‰¾ä¸åˆ°åˆ™è¿”å›-1
 	 */
-	public synchronized int indexOf(final String str, int index) {
+	public int indexOf(final String str, int index) {
 		index = (index < 0 ? 0 : index);
 		if (str == null || index >= size) {
 			return -1;
@@ -678,11 +677,11 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 		return -1;
 	}
 
-	public synchronized int lastIndexOf(final char ch) {
+	public int lastIndexOf(final char ch) {
 		return lastIndexOf(ch, size - 1);
 	}
 
-	public synchronized int lastIndexOf(final char ch, int index) {
+	public int lastIndexOf(final char ch, int index) {
 		index = (index >= size ? size - 1 : index);
 		if (index < 0) {
 			return -1;
@@ -695,11 +694,11 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 		return -1;
 	}
 
-	public synchronized int lastIndexOf(final String str) {
+	public int lastIndexOf(final String str) {
 		return lastIndexOf(str, size - 1);
 	}
 
-	public synchronized int lastIndexOf(final String str, int index) {
+	public int lastIndexOf(final String str, int index) {
 		final int strLen = str.length();
 		if (strLen > 0 && strLen <= size) {
 			if (strLen == 1) {
@@ -780,12 +779,12 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 	}
 
 	@Override
-	public synchronized boolean equals(final Object obj) {
+	public boolean equals(final Object obj) {
 		return obj instanceof StrBuffer && equals((StrBuffer) obj);
 	}
 
 	@Override
-	public synchronized int hashCode() {
+	public int hashCode() {
 		int hash = 0;
 		for (int i = size - 1; i >= 0; i--) {
 			hash = 31 * hash + value[i];
@@ -799,24 +798,24 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 	 * @return
 	 */
 	@Override
-	public synchronized int length() {
+	public int length() {
 		return size;
 	}
 
-	public synchronized int capacity() {
+	public int capacity() {
 		return value.length;
 	}
 
 	@Override
-	public synchronized String toString() {
+	public String toString() {
 		return new String(value, offset, size);
 	}
 
-	public synchronized boolean isEmpty() {
+	public boolean isEmpty() {
 		return size == 0;
 	}
 
-	public synchronized boolean isBlack() {
+	public boolean isBlack() {
 		if (isEmpty()) {
 			return true;
 		}
@@ -828,17 +827,17 @@ public class StrBuffer implements CharSequence, Appendable, Serializable {
 		return true;
 	}
 
-	public synchronized StrBuffer clear() {
+	public StrBuffer clear() {
 		value = new char[36];
 		size = 0;
 		return this;
 	}
 
-	public synchronized StringBuffer toStringBuffer() {
+	public StringBuffer toStringBuffer() {
 		return new StringBuffer(size).append(value, offset, size);
 	}
 
-	public synchronized StringBuilder toStringBuilder() {
+	public StringBuilder toStringBuilder() {
 		return new StringBuilder(size).append(value, offset, size);
 	}
 

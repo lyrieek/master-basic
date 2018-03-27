@@ -91,7 +91,14 @@ public class IOUtils {
 		return count;
 	}
 
-	public static void wrtier(String fileOutPath, String context) {
+	public static void write(String fileOutPath, String context) {
+		XFile xfile = new XFile(fileOutPath);
+		if (xfile.exists()) {
+			xfile.writeAndClose(context);
+		}
+	}
+
+	public static void append(String fileOutPath, String context) {
 		XFile xfile = new XFile(fileOutPath);
 		if (xfile.exists()) {
 			xfile.writeAndClose(context);
@@ -100,8 +107,16 @@ public class IOUtils {
 
 	public static void write(String fileOutPath, String content, Charset charset) {
 		XFile xfile = new XFile(fileOutPath,charset);
-		if (xfile.exists()) {
-			xfile.writeAndClose(content);
+		try {
+		    if (xfile.exists()) {
+		        xfile.delete();
+		    }
+			if (!xfile.createNewFile()) {
+				return;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+		xfile.writeAndClose(content);
 	}
 }

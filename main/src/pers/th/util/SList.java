@@ -8,10 +8,10 @@ import java.util.RandomAccess;
  * 简易集合
  * @author 天浩
  */
-class SList<E> extends AbstractList<E> implements RandomAccess, java.io.Serializable {
+ public class SList<E> extends AbstractList<E> implements RandomAccess, java.io.Serializable {
 	private static final long serialVersionUID = -6168330278027606446L;
 	private final E[] array;
-	
+
 	public SList(E[] arr) {
 		if (arr == null)
 			throw new NullPointerException();

@@ -1,24 +1,9 @@
 package pers.th.util
 
-class SListTest{
-    void testGetList() {
-    }
+def s = new String[2]
+s[0] = "foo"
+s[1] = "bar"
 
-    void testSize() {
-    }
+SList<String> list = new SList(s)
 
-    void testGet() {
-    }
-
-    void testSet() {
-    }
-
-    void testIndexOf() {
-    }
-
-    void testContains() {
-    }
-
-    void testGetArray() {
-    }
-}
+println list.get(0)

@@ -142,5 +142,20 @@ public class XStrings {
 	public static String join(String[] split) {
 		return Arrays.join(java.util.Arrays.asList(split));
 	}
-
+	
+	public static void main(String[] args) {
+		long number = 2;
+		char c = 'g';
+		for (char item: new char[]{'b','k','m','g'}) {
+			if (c == item) {
+				System.out.println(c);
+				System.out.println(number);
+				return;
+			}
+			number *= 1024;
+		}
+		System.out.println("args = [" + number + "]");
+		System.out.println("error");
+	}
+	
 }

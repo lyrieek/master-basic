@@ -1,5 +1,7 @@
 package pers.th.util;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -137,5 +139,7 @@ public class PointVisitor {
 		alreadyEnd = false;
 		return this.item = item;
 	}
+
+	private static final Pattern COMMENT_LINE = Pattern.compile("^\\s*//.*");
 
 }

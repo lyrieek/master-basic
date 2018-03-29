@@ -9,7 +9,7 @@ public class LineReader {
 
 	byte[] inByteBuf;
 	char[] inCharBuf;
-	char[] lineBuf = new char[1024];
+	public char[] lineBuf = new char[1024];
 	int inLimit = 0;
 	int inOff = 0;
 	InputStream inStream;
@@ -25,7 +25,7 @@ public class LineReader {
 		inCharBuf = new char[8192];
 	}
 	
-	int readLine() throws IOException {
+	public int readLine() throws IOException {
 		int len = 0;
 		char c = 0;
 

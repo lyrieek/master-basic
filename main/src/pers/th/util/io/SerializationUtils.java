@@ -7,7 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 /**
- * ĞòÁĞ»¯¹¤¾ß
+ * åºåˆ—åŒ–å·¥å…·
  */
 public class SerializationUtils {
 

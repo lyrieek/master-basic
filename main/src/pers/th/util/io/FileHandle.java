@@ -3,14 +3,14 @@ package pers.th.util.io;
 import java.io.File;
 
 /**
- * ´¦ÀíÎÄ¼ş¼¯Ê¹ÓÃµÄ»Øµ÷
- * @author ÌìºÆ
+ * å¤„ç†æ–‡ä»¶é›†ä½¿ç”¨çš„å›è°ƒ
+ * @author å¤©æµ©
  *
  */
 public abstract class FileHandle {
 	
 	/**
-	 * ¹ıÂËÎÄ¼ş¼¯Ìõ¼ş
+	 * è¿‡æ»¤æ–‡ä»¶é›†æ¡ä»¶
 	 * @return
 	 */
 	public boolean filter(File file) {
@@ -18,7 +18,7 @@ public abstract class FileHandle {
 	}
 	
 	/**
-	 * ´¦Àíº¯Êı
+	 * å¤„ç†å‡½æ•°
 	 */
 	public abstract void run(File file);
 	

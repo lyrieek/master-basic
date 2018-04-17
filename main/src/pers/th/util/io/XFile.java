@@ -53,6 +53,17 @@ public class XFile extends File {
 		}
 	}
 
+	@Override
+	public File[] listFiles() {
+		String[] list = list();
+		if (list == null) return new File[]{};
+		File[] fs = new File[list.length];
+		for (int i = 0; i < fs.length; i++) {
+			fs[i] = new File(list[i]);
+		}
+		return fs;
+	}
+
 	/**
 	 * 清空文件内容
 	 */

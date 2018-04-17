@@ -17,23 +17,26 @@ public class IOUtils {
 	private static final int DEFAULT_BUFFER_SIZE = 4096;
 
 	public static String reader(String path) {
-		return reader(path, Charset.defaultCharset());
+		return reader(XFile.getFile(path));
+	}
+
+	public static String reader(File file) {
+		return reader(file, Charset.defaultCharset());
 	}
 
 	/**
 	 * 直接读取文件
-	 * 
-	 * @param path
+	 *
+	 * @param file
 	 * @return
 	 */
-	public static String reader(String path, Charset charSet) {
-		File file = XFile.getFile(path);
+	public static String reader(File file, Charset charSet) {
 		if (file == null || !file.isFile()) {
 			return "";
 		}
 		FileInputStream fis = null;
 		FileChannel channel = null;
-		String result = null;
+		String result;
 		try {
 			fis = new FileInputStream(file);
 			channel = fis.getChannel();
@@ -44,6 +47,7 @@ public class IOUtils {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		} finally {
+			close(channel);
 			close(fis);
 		}
 		return result;
@@ -81,7 +85,7 @@ public class IOUtils {
 		return copy(input, output, new char[DEFAULT_BUFFER_SIZE]);
 	}
 
-	public static long copy(final Reader input, final Writer output, final char[] buffer) throws IOException {
+	private static long copy(final Reader input, final Writer output, final char[] buffer) throws IOException {
 		long count = 0;
 		int n;
 		while (-1 != (n = input.read(buffer))) {

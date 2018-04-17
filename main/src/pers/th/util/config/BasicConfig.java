@@ -1,5 +1,8 @@
 package pers.th.util.config;
 
+import pers.th.util.io.IOUtils;
+import pers.th.util.io.XFile;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Map;
@@ -30,15 +33,7 @@ public class BasicConfig {
 				return;
 			}
 			for (File file : files.listFiles()) {
-				int length = 0;
-				byte[] buffer = new byte[512];
-				StringBuffer template = new StringBuffer();
-				FileInputStream fis = new FileInputStream(file);
-				while ((length = fis.read(buffer)) != -1) {
-					template.append(new String(buffer, 0, length));
-				}
-				fis.close();
-				String str = template.toString();
+				String str = IOUtils.reader(file);
 				while (true) {
 					// update time,not matcher!
 					Matcher matcher = Pattern.compile("\\$\\{[a-zA-Z0-9_-]{1,}\\}").matcher(str);
@@ -67,20 +62,19 @@ public class BasicConfig {
 
 	public String get(String key) {
 		String value = prop.getProperty(key);
-		Matcher matcher = Pattern.compile("\\$\\{([^\\}]+)\\}").matcher(value);
+		Matcher matcher = Pattern.compile("\\$\\{([^}]+)}").matcher(value);
 		StringBuffer buffer = new StringBuffer();
 		while (matcher.find()) {
-			String matcherKey = matcher.group(1);
-			String matchervalue = prop.getProperty(matcherKey);
-			if (matchervalue != null) {
-				matcher.appendReplacement(buffer, matchervalue);
+			String matcherValue = prop.getProperty(matcher.group(1));
+			if (matcherValue != null) {
+				matcher.appendReplacement(buffer, matcherValue);
 			}
 		}
 		matcher.appendTail(buffer);
 		return buffer.toString();
 	}
 
-	public String getTemplate(String key) {
+	public String template(String key) {
 		return templates.get(key);
 	}
 

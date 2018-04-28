@@ -3,8 +3,8 @@ package pers.th.util.math;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * java.util.Random ·ÂÕÕÀà
- * @author ÌìºÆ
+ * java.util.Random ä»¿ç…§ç±»
+ * @author å¤©æµ©
  *
  */
 public class IRandom {
@@ -22,7 +22,7 @@ public class IRandom {
 
 	public IRandom() {
 		AtomicLong seedUniquifier = new AtomicLong(8682522807148012L);
-		long next = 0;
+		long next;
 		for (;;) {
 			long current = seedUniquifier.get();
 			next = current * 181783497276652981L;
@@ -34,13 +34,13 @@ public class IRandom {
 	}
 
 	private int next() {
-		long oldseed, nextseed;
+		long oldSeed, nextSeed;
 		AtomicLong seed = this.seed;
 		do {
-			oldseed = seed.get();
-			nextseed = (oldseed * multiplier + addend) & mask;
-		} while (!seed.compareAndSet(oldseed, nextseed));
-		return (int) (nextseed >>> (48 - bits));
+			oldSeed = seed.get();
+			nextSeed = (oldSeed * multiplier + addend) & mask;
+		} while (!seed.compareAndSet(oldSeed, nextSeed));
+		return (int) (nextSeed >>> (48 - bits));
 	}
 
 	public int nextInt(int n) {

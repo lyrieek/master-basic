@@ -3,50 +3,29 @@ package pers.th.util.text;
 import java.util.Random;
 
 /**
- * ÁîÅÆ
+ * ä»¤ç‰Œ
  * 
- * @author ÌìºÆ
+ * @author å¤©æµ©
  *
  */
 public class Token {
 
 	private String key;
 
-	public static void main(String[] args) {
-		final Token token = new Token();
-		for (int i = 0; i < 2373; i++) {
-			new Thread(new Runnable() {
-
-				@Override
-				public void run() {
-					try {
-						synchronized (token) {
-							System.out.println(Thread.currentThread().getName() + ":" + token.useKey(token.createKey()));
-							System.out.println(Thread.currentThread().getName() + ":" + token.useKey(token.createKey()));
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
-						System.exit(0);
-					}
-				}
-			}).start();
-		}
-	}
-
 	public synchronized String createKey() throws Exception {
-		//Ô´»ñÈ¡
+		//æºè·å–
 		String source = Double.toHexString(Math.random());
 		if (source.length() == 0) {
-			//Ê§Ğ§Ô´ÖØ¶Á
+			//å¤±æ•ˆæºé‡è¯»
 			return createKey();
 		}
-		//½á¹û¿Õ¼ä³õÊ¼»¯
+		//ç»“æœç©ºé—´åˆå§‹åŒ–
 		char[] result = new char[(source + System.nanoTime()).length() * 2];
 		Random random = new Random();
 		for (int i = result.length - 1; i > 0; i -= 2) {
 			result[i] = (char) ((random.nextInt(26) + 'a'));
 			if (new Random().nextInt(3) == 1) {
-				//²ÎÈëÊı×Ö
+				//å‚å…¥æ•°å­—
 				result[i - 1] = source.charAt(random.nextInt(source.length()));
 				continue;
 			}
@@ -56,18 +35,13 @@ public class Token {
 		return key = new String(result);
 	}
 
-	public synchronized String getKey() {
+	public synchronized String key() {
 		return key;
 	}
 
 	public synchronized boolean useKey(String input) {
-		System.out.println(key);
-		boolean res = input.equals(key);
+		boolean res = input.equals(key());
 		key = "";
-		if (!res) {
-			System.err.println("!!!");
-			System.exit(0);
-		}
 		return res;
 	}
 

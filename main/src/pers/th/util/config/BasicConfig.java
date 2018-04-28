@@ -1,7 +1,6 @@
 package pers.th.util.config;
 
 import pers.th.util.io.IOUtils;
-import pers.th.util.io.XFile;
 
 import java.io.File;
 import java.io.FileInputStream;

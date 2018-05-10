@@ -10,19 +10,19 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * ÏµÍ³ĞÅÏ¢
- * @author ÌìºÆ
+ * ç³»ç»Ÿä¿¡æ¯
+ * @author å¤©æµ©
  *
  */
 public class SystemInfo {
 
 	/**
-	 * ÎÄ¼ş±àÂë
+	 * æ–‡ä»¶ç¼–ç 
 	 */
 	public static final String FILE_ENCODING = prop("file.encoding");
 
 	/**
-	 * ÎÄ¼şÂ·¾¶·Ö¸ô·û,LINUX/UNIX:"/";Windows:"\"
+	 * æ–‡ä»¶è·¯å¾„åˆ†éš”ç¬¦,LINUX/UNIX:"/";Windows:"\"
 	 */
 	public static final String FILE_SEPARATOR = prop("file.separator");
 
@@ -75,7 +75,7 @@ public class SystemInfo {
 	}
 
 	/**
-	 * »ñÈ¡ÁÙÊ±Ä¿Â¼
+	 * è·å–ä¸´æ—¶ç›®å½•
 	 * @return
 	 */
 	public static File getTempDir() {
@@ -92,7 +92,7 @@ public class SystemInfo {
 
 
 	/**
-	 * »ñÈ¡ÏµÍ³¼ôÇĞ°åÄÚÈİ
+	 * è·å–ç³»ç»Ÿå‰ªåˆ‡æ¿å†…å®¹
 	 * @return
 	 * @throws UnsupportedFlavorException
 	 * @throws IOException
@@ -106,7 +106,7 @@ public class SystemInfo {
 	}
 
 	/**
-	 * ÉèÖÃÏµÍ³¼ôÇĞ°åÄÚÈİ
+	 * è®¾ç½®ç³»ç»Ÿå‰ªåˆ‡æ¿å†…å®¹
 	 * @param context
 	 */
 	public static void setClipboardText(String context) {
@@ -114,7 +114,7 @@ public class SystemInfo {
 	}
 	
 	/**
-	 * »ñÈ¡ÏµÍ³¼ôÇĞ°å
+	 * è·å–ç³»ç»Ÿå‰ªåˆ‡æ¿
 	 * @return
 	 */
 	public static Clipboard getSystemClipboard() {

@@ -1,38 +1,36 @@
 package pers.th.util.text;
 
 /**
- *  ‹Apache-Commons-codec∆Ù∑¢,ºÚªØ∆‰Ω·ππ
+ * ÂèóApache-Commons-codecÂêØÂèë,ÁÆÄÂåñÂÖ∂ÁªìÊûÑ
  * 
- * @author ÃÏ∫∆
+ * @author Â§©Êµ©
  *
  */
 public class Base64 {
 
-	protected static final int MASK_6BITS = 0x3f;
+	private static final int MASK_6BITS = 0x3f;
 
-	protected static final int MASK_8BITS = 0xff;
+	private static final int MASK_8BITS = 0xff;
 
-	protected final int encodeSize = 4;
+	private final int encodeSize = 4;
 
-	protected final int decodeSize = encodeSize - 1;
+	private final int decodeSize = encodeSize - 1;
 
-	static final byte[] CHUNK_SEPARATOR = { '\r', '\n' };
+	private static final byte PAD = '=';
 
-	protected static final byte PAD = '=';
-
-	protected static final byte[] ENCODE_TABLE = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
+	private static final byte[] ENCODE_TABLE = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
 			'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
 			'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3',
 			'4', '5', '6', '7', '8', '9', '+', '/' };
 
-	protected static final byte[] DECODE_TABLE = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+	private static final byte[] DECODE_TABLE = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
 			-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 62,
 			-1, 62, -1, 63, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, -1, -1, -1, -1, -1, -1, -1, 0, 1, 2, 3, 4, 5, 6, 7,
 			8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, -1, -1, -1, -1, 63, -1, 26, 27, 28,
 			29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51 };
 
 	static class Context {
-		int ibitWorkArea;
+		int workArea;
 		byte[] buffer;
 		int pos;
 		int readPos;
@@ -41,7 +39,7 @@ public class Base64 {
 		int modulus;
 	}
 
-	protected byte[] ensureBufferSize(final int size, final Context context) {
+	private byte[] ensureBufferSize(final int size, final Context context) {
 		if ((context.buffer == null) || (context.buffer.length < context.pos + size)) {
 			if (context.buffer == null) {
 				context.buffer = new byte[8192];
@@ -71,7 +69,7 @@ public class Base64 {
 	}
 
 	/**
-	 * Ω‚¬Î
+	 * Ëß£Á†Å
 	 * @param pArray
 	 * @return
 	 */
@@ -86,7 +84,7 @@ public class Base64 {
 
 	
 	/**
-	 * ±‡¬Î
+	 * ÁºñÁ†Å
 	 * @param pArray
 	 * @return
 	 */
@@ -127,15 +125,15 @@ public class Base64 {
 			final int savedPos = context.pos;
 			switch (context.modulus) {
 			case 1:
-				buffer[context.pos++] = ENCODE_TABLE[(context.ibitWorkArea >> 2) & MASK_6BITS];
-				buffer[context.pos++] = ENCODE_TABLE[(context.ibitWorkArea << 4) & MASK_6BITS];
+				buffer[context.pos++] = ENCODE_TABLE[(context.workArea >> 2) & MASK_6BITS];
+				buffer[context.pos++] = ENCODE_TABLE[(context.workArea << 4) & MASK_6BITS];
 				buffer[context.pos++] = PAD;
 				buffer[context.pos++] = PAD;
 				break;
 			case 2:
-				buffer[context.pos++] = ENCODE_TABLE[(context.ibitWorkArea >> 10) & MASK_6BITS];
-				buffer[context.pos++] = ENCODE_TABLE[(context.ibitWorkArea >> 4) & MASK_6BITS];
-				buffer[context.pos++] = ENCODE_TABLE[(context.ibitWorkArea << 2) & MASK_6BITS];
+				buffer[context.pos++] = ENCODE_TABLE[(context.workArea >> 10) & MASK_6BITS];
+				buffer[context.pos++] = ENCODE_TABLE[(context.workArea >> 4) & MASK_6BITS];
+				buffer[context.pos++] = ENCODE_TABLE[(context.workArea << 2) & MASK_6BITS];
 				buffer[context.pos++] = PAD;
 				break;
 			default:
@@ -150,12 +148,12 @@ public class Base64 {
 				if (b < 0) {
 					b += 256;
 				}
-				context.ibitWorkArea = (context.ibitWorkArea << 8) + b;
+				context.workArea = (context.workArea << 8) + b;
 				if (0 == context.modulus) {
-					buffer[context.pos++] = ENCODE_TABLE[(context.ibitWorkArea >> 18) & MASK_6BITS];
-					buffer[context.pos++] = ENCODE_TABLE[(context.ibitWorkArea >> 12) & MASK_6BITS];
-					buffer[context.pos++] = ENCODE_TABLE[(context.ibitWorkArea >> 6) & MASK_6BITS];
-					buffer[context.pos++] = ENCODE_TABLE[context.ibitWorkArea & MASK_6BITS];
+					buffer[context.pos++] = ENCODE_TABLE[(context.workArea >> 18) & MASK_6BITS];
+					buffer[context.pos++] = ENCODE_TABLE[(context.workArea >> 12) & MASK_6BITS];
+					buffer[context.pos++] = ENCODE_TABLE[(context.workArea >> 6) & MASK_6BITS];
+					buffer[context.pos++] = ENCODE_TABLE[context.workArea & MASK_6BITS];
 					context.currentLinePos += 4;
 				}
 			}
@@ -181,11 +179,11 @@ public class Base64 {
 					final int result = DECODE_TABLE[b];
 					if (result >= 0) {
 						context.modulus = (context.modulus + 1) % 4;
-						context.ibitWorkArea = (context.ibitWorkArea << 6) + result;
+						context.workArea = (context.workArea << 6) + result;
 						if (context.modulus == 0) {
-							buffer[context.pos++] = (byte) ((context.ibitWorkArea >> 16) & MASK_8BITS);
-							buffer[context.pos++] = (byte) ((context.ibitWorkArea >> 8) & MASK_8BITS);
-							buffer[context.pos++] = (byte) (context.ibitWorkArea & MASK_8BITS);
+							buffer[context.pos++] = (byte) ((context.workArea >> 16) & MASK_8BITS);
+							buffer[context.pos++] = (byte) ((context.workArea >> 8) & MASK_8BITS);
+							buffer[context.pos++] = (byte) (context.workArea & MASK_8BITS);
 						}
 					}
 				}
@@ -198,13 +196,13 @@ public class Base64 {
 			case 1:
 				break;
 			case 2:
-				context.ibitWorkArea = context.ibitWorkArea >> 4;
-				buffer[context.pos++] = (byte) ((context.ibitWorkArea) & MASK_8BITS);
+				context.workArea = context.workArea >> 4;
+				buffer[context.pos++] = (byte) ((context.workArea) & MASK_8BITS);
 				break;
 			case 3:
-				context.ibitWorkArea = context.ibitWorkArea >> 2;
-				buffer[context.pos++] = (byte) ((context.ibitWorkArea >> 8) & MASK_8BITS);
-				buffer[context.pos++] = (byte) ((context.ibitWorkArea) & MASK_8BITS);
+				context.workArea = context.workArea >> 2;
+				buffer[context.pos++] = (byte) ((context.workArea >> 8) & MASK_8BITS);
+				buffer[context.pos++] = (byte) ((context.workArea) & MASK_8BITS);
 				break;
 			default:
 				throw new IllegalStateException("Impossible modulus " + context.modulus);
@@ -213,7 +211,7 @@ public class Base64 {
 	}
 
 	/**
-	 * ◊÷∑˚¥Æ±‡¬Î
+	 * Â≠óÁ¨¶‰∏≤ÁºñÁ†Å
 	 * @param binaryData
 	 * @return
 	 */
@@ -222,7 +220,7 @@ public class Base64 {
 	}
 
 	/**
-	 * Ω‚¬ÎŒ™◊÷∑˚¥Æ
+	 * Ëß£Á†Å‰∏∫Â≠óÁ¨¶‰∏≤
 	 * @param base64Data
 	 * @return
 	 */

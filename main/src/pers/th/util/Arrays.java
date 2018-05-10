@@ -9,8 +9,7 @@ import java.util.List;
 import pers.th.util.text.StrBuffer;
 
 /**
- * 数组处理
- * @author 天浩
+ * @author lyrieek
  *
  */
 public class Arrays {
@@ -21,7 +20,7 @@ public class Arrays {
 		if (param != null && param.length > 0) {
 			return java.util.Arrays.asList(param);
 		}
-		return new ArrayList<T>();
+		return new ArrayList<>();
 	}
 
 	public <T> T[] asList(List<T> param) {
@@ -34,8 +33,7 @@ public class Arrays {
 	
 
 	/**
-	 * 是否全部都是null
-	 * 
+	 *
 	 * @param array
 	 * @return
 	 */
@@ -54,12 +52,6 @@ public class Arrays {
 		return true;
 	}
 
-	/**
-	 * 是否包含null,或者本身就是null
-	 * 
-	 * @param array
-	 * @return
-	 */
 	public static boolean hasEmpty(final Object[] array) {
 		if (getLength(array) == 0) {
 			return true;
@@ -74,14 +66,12 @@ public class Arrays {
 
 	public static void main(String[] args) {
 		Character[] c = new Character[] { 'a', 'b', 'c', 'd' };
-		c = reverse(c);
-		for (int i = 0; i < c.length; i++) {
-			System.out.println(c[i]);
+		for (Character item : reverse(c)) {
+			System.out.println(item);
 		}
 	}
 
 	/**
-	 * 翻转数组
 	 * @param array
 	 * @return
 	 */
@@ -99,7 +89,6 @@ public class Arrays {
 	}
 
 	/**
-	 * join 组合数组
 	 * @param strs
 	 * @return
 	 */
@@ -112,7 +101,6 @@ public class Arrays {
 	}
 
 	/**
-	 * 获取对象长度
 	 * @param array
 	 * @return
 	 */

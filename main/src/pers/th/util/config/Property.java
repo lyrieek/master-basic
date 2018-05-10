@@ -290,29 +290,10 @@ public class Property extends Hashtable<String, String> {
         return ((oval == null) && (defaults != null)) ? defaults.getProperty(key) : (String) oval;
     }
 
-    public String getProperty(String key, String defaultValue) {
-        String val = getProperty(key);
-        return (val == null) ? defaultValue : val;
-    }
-
     public Set<String> key() {
         Hashtable<String, String> h = new Hashtable<>();
         enumerateStringProperty(h);
         return h.keySet();
-    }
-
-    public void list(PrintStream out) {
-        out.println("-- listing Property --");
-        Hashtable<String, Object> h = new Hashtable<>();
-        enumerate(h);
-        for (Enumeration<String> e = h.keys(); e.hasMoreElements(); ) {
-            String key = e.nextElement();
-            String val = (String) h.get(key);
-            if (val.length() > 40) {
-                val = val.substring(0, 37) + "...";
-            }
-            out.println(key + "=" + val);
-        }
     }
 
     private void enumerate(Hashtable<String, Object> h) {

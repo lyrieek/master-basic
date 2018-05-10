@@ -1,7 +1,5 @@
 package pers.th.util.date;
 
-import org.omg.CORBA.portable.ApplicationException;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;

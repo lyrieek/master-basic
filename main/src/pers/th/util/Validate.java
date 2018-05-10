@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * 可以免于一些非空的判断
+ * 验证
  * @author 天浩
  *
  */
